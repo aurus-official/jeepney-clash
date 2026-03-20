@@ -23,7 +23,9 @@ public class WebSecurityConfig {
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(auth -> auth.requestMatchers(HttpMethod.POST, "/v1/player/login").permitAll())
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(HttpMethod.POST, "/v1/player/login").permitAll()
+                        .anyRequest().authenticated())
                 .httpBasic(basic -> basic.authenticationEntryPoint(webAuthenticationEntryPoint)
                         .realmName("Player Login Credential"))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
